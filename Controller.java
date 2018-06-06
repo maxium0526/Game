@@ -13,7 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 public class Controller {
-	public static boolean spaceStats=false;
+//	public static boolean spaceStats=false;
+	protected InputEvent ie = InputEvent.getInputEvent();
 	
 	@FXML
 	private SplitPane splitPane;
@@ -44,25 +45,25 @@ public class Controller {
 	}
 	@FXML
 	protected void press(MouseEvent event) {
-		spaceStats = true;
-//		GraphicsContext gc = canvas.getGraphicsContext2D();
-//		gc.fillRect(20, 20, 50, 50);
+
 	}
 	@FXML
 	protected void release(MouseEvent event) {
-		spaceStats = false;
+
 	}
 	@FXML
 	protected void pressKey(KeyEvent e) {
-		if(e.getCode()==KeyCode.UP) {
-			spaceStats = true;
-		}
+//		if(e.getCode()==KeyCode.UP) {
+//			spaceStats = true;
+//		}
+		ie.press(e.getCode());
 	}
 	@FXML
 	protected void releaseKey(KeyEvent e) {
-		if(e.getCode()==KeyCode.UP) {
-			spaceStats = false;
-		}
+//		if(e.getCode()==KeyCode.UP) {
+//			spaceStats = false;
+//		}
+		ie.release(e.getCode());
 	}
 	
 	@FXML

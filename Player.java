@@ -1,4 +1,5 @@
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 public class Player extends Item implements Movable, Drawable{
@@ -35,7 +36,7 @@ public class Player extends Item implements Movable, Drawable{
 		gc.fillRect(posiX, posiY , width, height);//(a>0?a:0)) is Gravity-effected Animation
 		
 		//print injector fire
-		if(Controller.spaceStats) {
+		if(ie.checkState(KeyCode.UP)) {
 			gc.setFill(Color.ORANGE);
 			double[] x = {posiX,posiX+width,posiX+width/2};
 			double[] y = {posiY+height,posiY+height,posiY+height*1.5};

@@ -7,7 +7,7 @@ import javafx.scene.*;
 import javafx.stage.Stage;
 
 public class UI extends Application{
-
+	InputEvent ie = InputEvent.getInputEvent();
 	@Override
 	public void start(Stage arg0) throws Exception {
 		// TODO Auto-generated method stub
@@ -17,20 +17,20 @@ public class UI extends Application{
 		arg0.addEventHandler(KeyEvent.KEY_PRESSED, 
 				(KeyEvent e)->{
 					if(e.getCode()==KeyCode.UP) {
-						Controller.spaceStats = true;
+						ie.press(KeyCode.UP);
 					}
 				}
 			);
 		arg0.addEventHandler(KeyEvent.KEY_RELEASED, 
 				(KeyEvent e)->{
 					if(e.getCode()==KeyCode.UP) {
-						Controller.spaceStats = false;
+						ie.release(KeyCode.UP);
 					}
 				}
 			);
 		
 		arg0.setScene(scene);
-		arg0.setTitle("My Game1 v0 powered by Maxium");
+		arg0.setTitle("My Game1 v0.0.2 powered by Maxium");
 		arg0.show();
 		
 	}

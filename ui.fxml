@@ -22,9 +22,9 @@
          <children>
             <TextField fx:id="nameField" focusTraversable="false" layoutX="13.0" layoutY="14.0" onMouseExited="#splitFocus" prefHeight="23.0" prefWidth="100.0" />
             <Button fx:id="startButton" focusTraversable="false" layoutX="13.0" layoutY="45.0" mnemonicParsing="false" onAction="#startGame" onKeyPressed="#pressKey" onKeyReleased="#releaseKey" prefHeight="23.0" prefWidth="100.0" text="Start!" />
-            <Button focusTraversable="false" layoutX="14.0" layoutY="79.0" mnemonicParsing="false" onKeyPressed="#pressKey" onKeyReleased="#releaseKey" onMousePressed="#press" onMouseReleased="#release" prefHeight="86.0" prefWidth="100.0" text="Damn!!">
+            <Button focusTraversable="false" layoutX="14.0" layoutY="79.0" mnemonicParsing="false" onKeyPressed="#pressKey" onKeyReleased="#releaseKey" onMousePressed="#press" onMouseReleased="#release" prefHeight="86.0" prefWidth="100.0" text="Press UP!!">
                <font>
-                  <Font size="18.0" />
+                  <Font size="15.0" />
                </font>
             </Button>
          </children></AnchorPane>
