@@ -1,7 +1,6 @@
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.*;
 import javafx.stage.Stage;
@@ -16,21 +15,17 @@ public class UI extends Application{
 		
 		arg0.addEventHandler(KeyEvent.KEY_PRESSED, 
 				(KeyEvent e)->{
-					if(e.getCode()==KeyCode.UP) {
-						ie.press(KeyCode.UP);
-					}
+						ie.press(e.getCode());
 				}
 			);
 		arg0.addEventHandler(KeyEvent.KEY_RELEASED, 
 				(KeyEvent e)->{
-					if(e.getCode()==KeyCode.UP) {
-						ie.release(KeyCode.UP);
-					}
+						ie.release(e.getCode());
 				}
 			);
 		
 		arg0.setScene(scene);
-		arg0.setTitle("My Game1 v0.0.2 powered by Maxium");
+		arg0.setTitle("My Game1 v0.0.3 powered by Maxium");
 		arg0.show();
 		
 	}

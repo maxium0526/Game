@@ -11,6 +11,8 @@ public class InputEvent {
 	}
 	
 	HashSet<KeyCode> keySet = new HashSet<KeyCode>();
+	boolean mouse = false;
+	
 	public void press(KeyCode kc) {
 		keySet.add(kc);
 	}
@@ -18,7 +20,17 @@ public class InputEvent {
 		keySet.remove(kc);
 	}
 	
+	public void pressMouse() {
+		mouse = true;
+	}
+	public void releaseMouse() {
+		mouse = false;
+	}
+	
 	public boolean checkState(KeyCode kc) {
 		return keySet.contains(kc);
+	}
+	public boolean checkMouseState() {
+		return mouse;
 	}
 }
