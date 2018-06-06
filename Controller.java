@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
@@ -20,19 +22,17 @@ public class Controller {
 	
 	@FXML
 	protected void startGame(ActionEvent event) throws InterruptedException {
-		Drawer d = new Drawer(canvas);
-		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
-		Game game = new Game();
+		
+		Game game = new Game(canvas);
 		
 		Timeline timer = new Timeline(new KeyFrame(
 				Duration.millis(10), ae -> {
-					double posi = game.go();
+					game.calcParameters();
+					
+					game.displayFrame();
 					
 					
-					
-					d.clean();
-					gc.fillRect(50, 400-posi-50, 25,50);
 					
 				}));
 		
@@ -49,5 +49,17 @@ public class Controller {
 	@FXML
 	protected void release(MouseEvent event) {
 		spaceStats = false;
+	}
+	@FXML
+	protected void pressKey(KeyEvent e) {
+		if(e.getCode()==KeyCode.UP) {
+			spaceStats = true;
+		}
+	}
+	@FXML
+	protected void releaseKey(KeyEvent e) {
+		if(e.getCode()==KeyCode.UP) {
+			spaceStats = false;
+		}
 	}
 }
