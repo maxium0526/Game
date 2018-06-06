@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -14,7 +15,8 @@ import javafx.util.Duration;
 public class Controller {
 	public static boolean spaceStats=false;
 	
-	
+	@FXML
+	private SplitPane splitPane;
 	@FXML
 	private TextField nameField;
 	@FXML
@@ -22,9 +24,9 @@ public class Controller {
 	
 	@FXML
 	protected void startGame(ActionEvent event) throws InterruptedException {
+		splitPane.requestFocus();
 		
-		
-		Game game = new Game(canvas);
+		Game game = new Game(canvas,nameField.getText());
 		
 		Timeline timer = new Timeline(new KeyFrame(
 				Duration.millis(10), ae -> {
@@ -61,5 +63,10 @@ public class Controller {
 		if(e.getCode()==KeyCode.UP) {
 			spaceStats = false;
 		}
+	}
+	
+	@FXML
+	protected void splitFocus(MouseEvent e) {
+		splitPane.requestFocus();
 	}
 }

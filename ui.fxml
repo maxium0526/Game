@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.7859531772575251" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<SplitPane fx:id="splitPane" dividerPositions="0.7859531772575251" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
@@ -20,7 +20,7 @@
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-            <TextField fx:id="nameField" focusTraversable="false" layoutX="13.0" layoutY="14.0" prefHeight="23.0" prefWidth="100.0" />
+            <TextField fx:id="nameField" focusTraversable="false" layoutX="13.0" layoutY="14.0" onMouseExited="#splitFocus" prefHeight="23.0" prefWidth="100.0" />
             <Button fx:id="startButton" focusTraversable="false" layoutX="13.0" layoutY="45.0" mnemonicParsing="false" onAction="#startGame" onKeyPressed="#pressKey" onKeyReleased="#releaseKey" prefHeight="23.0" prefWidth="100.0" text="Start!" />
             <Button focusTraversable="false" layoutX="14.0" layoutY="79.0" mnemonicParsing="false" onKeyPressed="#pressKey" onKeyReleased="#releaseKey" onMousePressed="#press" onMouseReleased="#release" prefHeight="86.0" prefWidth="100.0" text="Damn!!">
                <font>
