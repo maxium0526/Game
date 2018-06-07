@@ -8,16 +8,16 @@ public class Game {
 	private GraphicsContext gc;
 //	private InputEvent ie;
 	
-	public Game(Canvas canvas, String playerName) {
+	public Game(Canvas canvas, String playerName1, String playerName2) {
 		this.canvas = canvas;
 		this.gc = canvas.getGraphicsContext2D();		
 //		this.ie = InputEvent.getInputEvent();
 		
-		player = new Player(playerName, 1, 20, 40, 50, 250,9.8,-20);
+		player = new Player(playerName1, 1, 20, 40, 50, 250,9.8,-20);
 		player.setKeys(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
 		player.setColor(Color.BLUE);
 		
-		npc = new Player("NPC00", 1.5, 30, 50, 100, 250,9.8,-20);
+		npc = new Player(playerName2, 1.5, 30, 50, 100, 250,9.8,-50);
 		npc.setKeys(KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT);
 		npc.setColor(Color.RED);
 		
@@ -45,6 +45,7 @@ public class Game {
 		player.touch(ceiling);
 		npc.touch(ceiling);
 		
+		Player.impact(player, npc);
 
 		player.touch(npc);
 		npc.touch(player);

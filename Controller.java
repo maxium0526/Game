@@ -17,7 +17,7 @@ public class Controller {
 	@FXML
 	private SplitPane splitPane;
 	@FXML
-	private TextField nameField;
+	private TextField nameField1, nameField2;
 	@FXML
 	private Canvas canvas;
 	
@@ -25,7 +25,7 @@ public class Controller {
 	protected void startGame(ActionEvent event) throws InterruptedException {
 		splitPane.requestFocus();
 		
-		Game game = new Game(canvas,nameField.getText());
+		Game game = new Game(canvas,nameField1.getText(),nameField2.getText());
 		
 		Timeline timer = new Timeline(new KeyFrame(
 				Duration.millis(10), ae -> {

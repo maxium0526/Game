@@ -6,6 +6,8 @@ public class Player extends MovableItem implements Drawable{
 	
 	public double f;
 	
+//	public boolean touchedGround = false;
+	
 	public Player(String name,double weight, double width, double height, double posiX, double posiY, double gravity, double fY) {
 		super(width,height,posiX,posiY,weight,gravity);
 		this.name = name;
@@ -16,7 +18,7 @@ public class Player extends MovableItem implements Drawable{
 		aX = 0; aY = 0;
 		aX += fX / m; aY += fY / m;		
 		aY += g;		
-		triggerEvent();		
+		triggerEvent(frameTime,pxsPM);		
 		vX += aX * frameTime;
 		vY += aY * frameTime;
 		posiX += vX * pxsPM * frameTime;
@@ -24,30 +26,34 @@ public class Player extends MovableItem implements Drawable{
 	}
 	
 	@Override
-	protected void upEvent() {
+	protected void upEvent(double frameTime, double pxsPM) {
 		aY += f / m;
-	}
-	
+	}	
 	@Override
-	protected void leftEvent() {
-		posiX-=(1/m);
+	protected void leftEvent(double frameTime, double pxsPM) {
+		posiX-=1;
 	}
-	
-	protected void rightEvent() {
-		posiX+=(1/m);
+	@Override
+	protected void rightEvent(double frameTime, double pxsPM) {
+		posiX+=1;
+	}
+	@Override
+	protected void downEvent(double frameTime, double pxsPM) {
+		
 	}
 	
 	public void touch(Item item) {
 		if(item instanceof Player) {
-			
-		} else {
+		} else if(item instanceof MapItem){
 			if(this.getBound(Bound.DOWN).touch(item.getBound(Bound.UP), height/2)) {
 				posiY=item.getBound(Bound.UP).posi-height;
-				vY=0;
+				vY=0;				
 				
-				
-			}
-			
+//				touchedGround = this.getBound(Bound.DOWN).posi-item.getBound(Bound.UP).posi<2&&
+//						this.getBound(Bound.DOWN).posi-item.getBound(Bound.UP).posi>-2
+//						?true:false;
+				//if(touchedGround) {System.out.println("Touched");}
+			} 		
 			if(this.getBound(Bound.UP).touch(item.getBound(Bound.DOWN), height/2)) {
 				posiY=item.getBound(Bound.DOWN).posi;
 				vY=0;
@@ -55,17 +61,46 @@ public class Player extends MovableItem implements Drawable{
 			if(this.getBound(Bound.LEFT).touch(item.getBound(Bound.RIGHT), height/2)) {
 				posiX=item.getBound(Bound.RIGHT).posi;
 				vX=0;
-			}
-			
-
-			
+			}			
 			if(this.getBound(Bound.RIGHT).touch(item.getBound(Bound.LEFT), height/2)) {
 				posiX=item.getBound(Bound.LEFT).posi-width;
 				vX=0;
 			}
 		}
-		
-		
+				
+	}
+	
+	public static void impact(Player a, Player b) {
+		double t1, t2;//temporarily store the speed results
+		if(a.getBound(Bound.DOWN).touch(b.getBound(Bound.UP), 10)) {
+			t1 = (a.vY * (a.m - b.m) + 2 * b.m * b.vY) / (a.m+b.m);
+			t2 = (b.vY * (b.m - a.m) + 2 * a.m * a.vY) / (a.m+b.m);
+			a.vY = t1;
+			b.vY = t2;
+			a.posiY=b.posiY-a.height;//prevent stuck
+			
+			System.out.println(t1+","+t2);
+		}
+		if(a.getBound(Bound.UP).touch(b.getBound(Bound.DOWN), 10)) {
+			t1 = (a.vY * (a.m - b.m) + 2 * b.m * b.vY) / (a.m+b.m);
+			t2 = (b.vY * (b.m - a.m) + 2 * a.m * a.vY) / (a.m+b.m);
+			a.vY = t1;
+			b.vY = t2;
+			b.posiY=a.posiY-b.height;
+			System.out.println(t1+","+t2);
+		}
+		if(a.getBound(Bound.LEFT).touch(b.getBound(Bound.RIGHT), 5)) {
+			t1 = b.posiX + b.width;
+			t2 = a.posiX - b.width;
+			a.posiX = t1;
+			b.posiX = t2;
+		}
+		if(a.getBound(Bound.RIGHT).touch(b.getBound(Bound.LEFT), 5)) {
+			t1 = b.posiX - a.width;
+			t2 = a.posiX + a.width;
+			a.posiX = t1;
+			b.posiX = t2;
+		}
 	}
 
 	@Override

@@ -45,7 +45,7 @@ public class Bound {
 	private boolean check2Points(Bound b, double offset) {
 		if((p1>b.p1+offset&&p1+offset<b.p2)||(p2>b.p1+offset&&p2+offset<b.p2)||(b.p1>p1+offset&&b.p1+offset<p2)||(b.p2>p1+offset&&b.p2+offset<p2)) {
 			if(posi-b.posi>0.15) {
-				System.out.println(posi-b.posi);
+			//	System.out.println(posi-b.posi);
 			}
 			return true;
 		}

@@ -52,31 +52,31 @@ public class Item {
 		this.color = color;
 	}
 	
-	protected void triggerEvent() {
+	protected void triggerEvent(double frameTime, double pxsPM) {
 		if(up!=null&&ie.checkState(up)) {
-			upEvent();
+			upEvent(frameTime, pxsPM);
 		}
 		if(down!=null&&ie.checkState(down)) {
-			downEvent();
+			downEvent(frameTime, pxsPM);
 		}
 		if(left!=null&&ie.checkState(left)) {
-			leftEvent();
+			leftEvent(frameTime, pxsPM);
 		}
 		if(right!=null&&ie.checkState(right)) {
-			rightEvent();
+			rightEvent(frameTime, pxsPM);
 		}
 	}
 	
-	protected void upEvent() {
+	protected void upEvent(double frameTime, double pxsPM) {
 		
 	}
-	protected void downEvent() {
+	protected void downEvent(double frameTime, double pxsPM) {
 		
 	}
-	protected void leftEvent() {
+	protected void leftEvent(double frameTime, double pxsPM) {
 		
 	}
-	protected void rightEvent() {
+	protected void rightEvent(double frameTime, double pxsPM) {
 		
 	}
 	
