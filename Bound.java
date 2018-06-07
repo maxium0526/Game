@@ -52,11 +52,11 @@ public class Bound {
 		return false;
 	}
 	
-	//old version
-	private boolean check2Points(Bound b) {
-		if((p1>b.p1&&p1<b.p2)||(p2>b.p1&&p2<b.p2)||(b.p1>p1&&b.p1<p2)||(b.p2>p1&&b.p2<p2)) {
-			return true;
-		}
-		return false;
-	}
+//	old version
+//	private boolean check2Points(Bound b) {
+//		if((p1>b.p1&&p1<b.p2)||(p2>b.p1&&p2<b.p2)||(b.p1>p1&&b.p1<p2)||(b.p2>p1&&b.p2<p2)) {
+//			return true;
+//		}
+//		return false;
+//	}
 }

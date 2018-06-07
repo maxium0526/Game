@@ -1,30 +1,22 @@
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
-public class Player extends Item implements Movable, Drawable{
+public class Player extends MovableItem implements Drawable{
 	public String name;
 	
 	public double f;
 	
-	public Player(String name,double weight, double width, double height, double posiX, double posiY, double gravity, double fY, KeyCode up, KeyCode left, KeyCode right) {
-		super(weight,width,height,posiX,posiY,gravity);
+	public Player(String name,double weight, double width, double height, double posiX, double posiY, double gravity, double fY) {
+		super(width,height,posiX,posiY,weight,gravity);
 		this.name = name;
-		this.up = up;
-		this.left = left;
-		this.right = right;
 		this.f = fY;
 	}
 	@Override
 	public void calcNxtPosi(double fX, double fY, double frameTime, double pxsPM) {//f為被動受力,非主動受力
-		// TODO Auto-generated method stub
 		aX = 0; aY = 0;
-		aX += fX / m; aY += fY / m;
-		
-		aY += g;
-		
-		triggerEvent();
-		
+		aX += fX / m; aY += fY / m;		
+		aY += g;		
+		triggerEvent();		
 		vX += aX * frameTime;
 		vY += aY * frameTime;
 		posiX += vX * pxsPM * frameTime;
@@ -46,27 +38,31 @@ public class Player extends Item implements Movable, Drawable{
 	}
 	
 	public void touch(Item item) {
-		if(this.getBound(Bound.DOWN).touch(item.getBound(Bound.UP), height/2)) {
-			posiY=item.getBound(Bound.UP).posi-height;
-			vY=0;
+		if(item instanceof Player) {
 			
+		} else {
+			if(this.getBound(Bound.DOWN).touch(item.getBound(Bound.UP), height/2)) {
+				posiY=item.getBound(Bound.UP).posi-height;
+				vY=0;
+				
+				
+			}
 			
-		}
-		
-		if(this.getBound(Bound.UP).touch(item.getBound(Bound.DOWN), height/2)) {
-			posiY=item.getBound(Bound.DOWN).posi;
-			vY=0;
-		}
-		if(this.getBound(Bound.LEFT).touch(item.getBound(Bound.RIGHT), height/2)) {
-			posiX=item.getBound(Bound.RIGHT).posi;
-			vX=0;
-		}
-		
+			if(this.getBound(Bound.UP).touch(item.getBound(Bound.DOWN), height/2)) {
+				posiY=item.getBound(Bound.DOWN).posi;
+				vY=0;
+			}
+			if(this.getBound(Bound.LEFT).touch(item.getBound(Bound.RIGHT), height/2)) {
+				posiX=item.getBound(Bound.RIGHT).posi;
+				vX=0;
+			}
+			
 
-		
-		if(this.getBound(Bound.RIGHT).touch(item.getBound(Bound.LEFT), height/2)) {
-			posiX=item.getBound(Bound.LEFT).posi-width;
-			vX=0;
+			
+			if(this.getBound(Bound.RIGHT).touch(item.getBound(Bound.LEFT), height/2)) {
+				posiX=item.getBound(Bound.LEFT).posi-width;
+				vX=0;
+			}
 		}
 		
 		
@@ -86,6 +82,7 @@ public class Player extends Item implements Movable, Drawable{
 		gc.fillText(name, posiX, posiY-8);
 		
 		//print player
+		gc.setFill(color);
 		gc.fillRect(posiX, posiY , width, height);//(a>0?a:0)) is Gravity-effected Animation
 		
 		//print injector fire

@@ -13,16 +13,25 @@ public class Game {
 		this.gc = canvas.getGraphicsContext2D();		
 //		this.ie = InputEvent.getInputEvent();
 		
-		player = new Player(playerName, 1, 20, 40, 50, 0,9.8,-20,KeyCode.W,KeyCode.A,KeyCode.D);
-		npc = new Player("NPC00", 1.5, 30, 50, 100, 0,9.8,-20,KeyCode.UP,KeyCode.LEFT, KeyCode.RIGHT);
+		player = new Player(playerName, 1, 20, 40, 50, 250,9.8,-20);
+		player.setKeys(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
+		player.setColor(Color.BLUE);
 		
-		ground = new Item(0,canvas.getWidth(),50,0,canvas.getHeight(),0);
+		npc = new Player("NPC00", 1.5, 30, 50, 100, 250,9.8,-20);
+		npc.setKeys(KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT);
+		npc.setColor(Color.RED);
+		
+		ground = new MapItem(canvas.getWidth(),100,0,canvas.getHeight()-20);
+		ground.setColor(Color.BLACK);
+		
+		ceiling = new MapItem(canvas.getWidth(),20,10,20);
+		ceiling.setColor(Color.BLACK);
 	}
 	
 	private double pxsPM = 28;//define how many pixels a meter has 
 	
 	private Player player, npc;
-	private Item ground;
+	private MapItem ground,ceiling;
 	
 	//positive down, negative up; up to down is 0-canvas.getHeight()
 	
@@ -32,6 +41,9 @@ public class Game {
 		
 		player.touch(ground);
 		npc.touch(ground);
+		
+		player.touch(ceiling);
+		npc.touch(ceiling);
 		
 
 		player.touch(npc);
@@ -47,19 +59,33 @@ public class Game {
 //		}
 	}
 	
-	private void touch() {
-		
-	}
+//	private void touch() {
+//		
+//	}
 	
 	public void displayFrame() {
 		cleanDisplay();
 		player.draw(gc);
 		npc.draw(gc);
+		
+		ground.draw(gc);
+		ceiling.draw(gc);
+		
+		drawScale(420,370);
+		
 	}
 	
 	private void cleanDisplay() {
 		gc.setFill(Color.WHITE);
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+	}
+	
+	private void drawScale(double x, double y) {
+		gc.setFill(Color.BLACK);
+		gc.strokeLine(x, y, x+pxsPM, y);
+		gc.strokeLine(x,y-3,x,y+3);
+		gc.strokeLine(x+pxsPM,y-3,x+pxsPM,y+3);
+		gc.fillText("1m", x+5, y-5);
 	}
 	
 }
