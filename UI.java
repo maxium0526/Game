@@ -25,7 +25,7 @@ public class UI extends Application{
 			);
 		
 		arg0.setScene(scene);
-		arg0.setTitle("My Game1 v0.0.3 powered by Maxium");
+		arg0.setTitle("My Game1 v0.0.4 powered by Maxium");
 		arg0.show();
 		
 	}

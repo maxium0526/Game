@@ -52,4 +52,16 @@ public class Item {
 	protected void rightEvent() {
 		
 	}
+	
+	
+	
+	public Bound getBound(int type) {
+		switch(type) {
+			case Bound.UP : return new Bound(Bound.UP, posiY, posiX, posiX+width);
+			case Bound.RIGHT : return new Bound(Bound.RIGHT, posiX+width, posiY, posiY+height);
+			case Bound.DOWN : return new Bound(Bound.DOWN, posiY+height, posiX, posiX+width);
+			case Bound.LEFT : return new Bound(Bound.LEFT, posiX, posiY, posiY+height);
+			default: return null;
+		}
+	}
 }

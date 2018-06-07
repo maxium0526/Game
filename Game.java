@@ -13,27 +13,42 @@ public class Game {
 		this.gc = canvas.getGraphicsContext2D();		
 //		this.ie = InputEvent.getInputEvent();
 		
-		player = new Player(playerName, 1, 20, 40, 50, 0,9.8,-20,KeyCode.W);
-		npc = new Player("NPC00", 1.5, 30, 50, 100, 0,9.8,-20,KeyCode.UP);
+		player = new Player(playerName, 1, 20, 40, 50, 0,9.8,-20,KeyCode.W,KeyCode.A,KeyCode.D);
+		npc = new Player("NPC00", 1.5, 30, 50, 100, 0,9.8,-20,KeyCode.UP,KeyCode.LEFT, KeyCode.RIGHT);
+		
+		ground = new Item(0,canvas.getWidth(),50,0,canvas.getHeight(),0);
 	}
 	
 	private double pxsPM = 28;//define how many pixels a meter has 
 	
 	private Player player, npc;
+	private Item ground;
 	
 	//positive down, negative up; up to down is 0-canvas.getHeight()
 	
 	public void calcParameters() {
-		player.calcNxtFrame(0, 0, 0.01, pxsPM);
-		npc.calcNxtFrame(0, 0, 0.01, pxsPM);
-		if(player.posiY>canvas.getHeight()-player.height) {
-			player.posiY=canvas.getHeight()-player.height;
-			player.vY = 0;
-		}
-		if(npc.posiY>canvas.getHeight()-npc.height) {
-			npc.posiY=canvas.getHeight()-npc.height;
-			npc.vY = 0;
-		}
+		player.calcNxtPosi(0, 0, 0.01, pxsPM);
+		npc.calcNxtPosi(0, 0, 0.01, pxsPM);
+		
+		player.touch(ground);
+		npc.touch(ground);
+		
+
+		player.touch(npc);
+		npc.touch(player);
+		
+//		if(player.posiY>canvas.getHeight()-player.height) {
+//			player.posiY=canvas.getHeight()-player.height;
+//			player.vY = 0;
+//		}
+//		if(npc.posiY>canvas.getHeight()-npc.height) {
+//			npc.posiY=canvas.getHeight()-npc.height;
+//			npc.vY = 0;
+//		}
+	}
+	
+	private void touch() {
+		
 	}
 	
 	public void displayFrame() {
