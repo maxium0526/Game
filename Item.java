@@ -52,7 +52,7 @@ public class Item {
 		this.color = color;
 	}
 	
-	protected void triggerEvent(double frameTime, double pxsPM) {
+	protected void doTriggerEvent(double frameTime, double pxsPM) {
 		if(up!=null&&ie.checkState(up)) {
 			upEvent(frameTime, pxsPM);
 		}
