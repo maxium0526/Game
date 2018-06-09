@@ -100,7 +100,7 @@ public class Player extends MovableItem implements Drawable{
 			b.vY = t2;
 			a.posiY=b.posiY-a.height;//prevent stuck
 			a.touchedGround = true;
-			System.out.println(a.posiY+a.height-b.posiY);
+			System.out.println("Impact");
 		}
 		if(a.getBound(Bound.UP).touch(b.getBound(Bound.DOWN), 10)) {
 			t1 = (a.vY * (a.m - b.m) + 2 * b.m * b.vY) / (a.m+b.m);
@@ -109,19 +109,23 @@ public class Player extends MovableItem implements Drawable{
 			b.vY = t2;
 			b.posiY=a.posiY-b.height;
 			b.touchedGround = true;;
-			System.out.println(a.posiY+a.height-b.posiY);
+			System.out.println("Impact");
 		}
 		if(a.getBound(Bound.LEFT).touch(b.getBound(Bound.RIGHT), 10)) {
 			t1 = b.posiX + b.width;
 			t2 = a.posiX - b.width;
 			a.posiX = t1;
 			b.posiX = t2;
+			System.out.println("Impact");
+
 		}
 		if(a.getBound(Bound.RIGHT).touch(b.getBound(Bound.LEFT), 10)) {
 			t1 = b.posiX - a.width;
 			t2 = a.posiX + a.width;
 			a.posiX = t1;
 			b.posiX = t2;
+			System.out.println("Impact");
+
 		}
 	}
 

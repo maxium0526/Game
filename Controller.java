@@ -9,16 +9,20 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class Controller {
-	public static final double frameTime = 0.01;
-	public static double score1 = 0, score2 = 0;
-	public static boolean stopGame = false;
-	public static boolean sendScore = false;
+//	public static double score1 = 0, score2 = 0;
+//	public static boolean stopGame = false;
+//	public static boolean sendScore = false;
 	protected InputEvent ie = InputEvent.getInputEvent();
+	
+	public static Game game;
+	public static Timeline gameTimer;
 	
 	@FXML
 	private SplitPane splitPane;
@@ -27,51 +31,57 @@ public class Controller {
 	@FXML
 	private Canvas canvas;
 	@FXML
-	private Label score1Label, score2Label;
+	private Label score1Label;
 	
 	@FXML
 	protected void startGame(ActionEvent event) throws InterruptedException {
 		splitPane.requestFocus();
 		
-		Game game = new Game(canvas,nameField1.getText(),nameField2.getText());
-		stopGame = false;
-		score1Label.setText("0");
-		score2Label.setText("0");
+		game = new Game(canvas);
 		
-		Timeline gameTimer = new Timeline(new KeyFrame(
-				Duration.millis(frameTime * 1000), ae -> {
+		Player player = new Player(nameField1.getText(), 1, 21, 38, 50, 250,9.8,-20);
+		player.setKeys(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
+		player.setColor(Color.BLUE);
+		game.addPlayer(player);
+		
+		game.init();
+
+//		stopGame = false;
+		score1Label.setText("0");
+		
+		gameTimer = new Timeline(new KeyFrame(
+				Duration.millis(Settings.mainTimerPeriod * 1000), ae -> {
 					game.next();
 					
 					game.displayFrame();
 					
-					score1Label.setText(String.valueOf((int)score1));
-					score2Label.setText(String.valueOf((int)score2));
+					score1Label.setText(String.valueOf((int)game.getScore(0)));
 
 				}));		
 		gameTimer.setCycleCount(Animation.INDEFINITE);
 		gameTimer.play();
 		
-		Timeline normalTimer = new Timeline(new KeyFrame(
-				Duration.millis(100), ae -> {
-					if(stopGame) {
-						gameTimer.stop();
-						if(sendScore) {
-							try {
-								HTTPRequest request = new HTTPRequest(new URL("http://127.0.0.1:8000/java/"));
-								request.setPostData("name="+(game.players.get(0).name.equals("")?"nameless":game.players.get(0).name)+"&score="+(int)Controller.score1+"&ver="+UI.version);
-								String[] str = request.read();
-							} catch (Exception e) {
-								e.printStackTrace();
-								System.out.println("HTTP Request failed.");
-							}
-							sendScore = false;
-						}
-					}
-				}));		
-		normalTimer.setCycleCount(Animation.INDEFINITE);
-		normalTimer.play();
 		
 	}
+	public static void uploadScore(String name, double score) {
+		if(Settings.uploadScore) {
+			try {
+				HTTPRequest request = new HTTPRequest(new URL(Settings.serverURL));
+				request.setPostData("name="+(name.equals("")?"nameless":name)+"&score="+(int)score+"&ver="+Settings.version);
+				String[] str = request.read();
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("HTTP Request failed.");
+			}
+//			sendScore = false;
+			
+		}
+	}
+	
+	public static void stopGame() {
+		gameTimer.stop();
+	}
+	
 	@FXML
 	protected void press(MouseEvent event) {
 
