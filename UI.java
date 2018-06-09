@@ -32,6 +32,15 @@ public class UI extends Application{
 	}
 	
 	public static void main(String[] args) {
+		System.out.println("Version: "+ Settings.version);
+		System.out.println("Physical System Version: "+Settings.systemVersion);
+		System.out.println("Server URL: "+(Settings.uploadScore?Settings.serverURL:"N/A"));
+		System.out.println("Game Refersh Time: "+ Settings.mainTimerPeriod + "s");
+		System.out.println();
+		System.out.println("This game is written by Maxium(maxium0526@github).");
+		System.out.println("Adopted external code:");
+		System.out.println("HTTPRequest : Konloch @ github");
+		System.out.println();
 		launch();
 	}
 }

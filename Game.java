@@ -86,6 +86,7 @@ public class Game {
 			for(int i=0;i<players.size();i++) {
 				Controller.uploadScore(players.get(i).name,playerScores.get(i));
 			}
+			System.out.println("Game over.");
 			Controller.stopGame();
 		}
 	}
@@ -134,10 +135,10 @@ public class Game {
 	
 	public void createWall() {
 		int rnd1, rnd2;
+		int c = 0;//count how many times repeated
 		do {
 			 rnd1 = (int) (Math.random() * canvas.getHeight());
 			 rnd2 = (int) (Math.random() * canvas.getHeight());
-			 System.out.println(rnd1+","+rnd2);
 			 if(rnd2<rnd1) {
 				 int t = rnd2;
 				 rnd2 = rnd1;
@@ -146,6 +147,7 @@ public class Game {
 			 if(rnd2-rnd1<100 && rnd2-rnd1>70) {
 				 break;
 			 }
+			 c++;
 		} while(true);
 		MapItem wall1 = new MapItem(20,rnd1,canvas.getWidth(),0);
 		MapItem wall2 = new MapItem(20,canvas.getHeight()-rnd2,canvas.getWidth(),rnd2);
@@ -153,6 +155,7 @@ public class Game {
 		wall2.setColor(Color.BLACK);
 		walls.add(wall1);
 		walls.add(wall2);
+		System.out.println("Created A Wall "+rnd1+", "+rnd2+". Repeated "+c+" time(s). Speed is "+wt.getTime()+".");
 	}
 	
 	public void moveWalls() {

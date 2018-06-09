@@ -37,6 +37,10 @@ public class Controller {
 	protected void startGame(ActionEvent event) throws InterruptedException {
 		splitPane.requestFocus();
 		
+		if(game!=null) {
+			stopGame();
+		}
+		
 		game = new Game(canvas);
 		
 		Player player = new Player(nameField1.getText(), 1, 21, 38, 50, 250,9.8,-20);
@@ -60,15 +64,24 @@ public class Controller {
 				}));		
 		gameTimer.setCycleCount(Animation.INDEFINITE);
 		gameTimer.play();
+		System.out.println("Game started.");
 		
 		
 	}
 	public static void uploadScore(String name, double score) {
 		if(Settings.uploadScore) {
 			try {
+				System.out.println("Uploading score(s)...");
 				HTTPRequest request = new HTTPRequest(new URL(Settings.serverURL));
-				request.setPostData("name="+(name.equals("")?"nameless":name)+"&score="+(int)score+"&ver="+Settings.version);
-				String[] str = request.read();
+				request.setPostData("name="+(name.equals("")?"nameless":name)+"&score="+(int)score+"&ver="+Settings.version+"&sysver="+Settings.systemVersion);
+				String[] strs = request.read();
+				if(strs[0].equals("true")) {
+					System.out.println("Uploaded score(s) successfully.");
+				} else if(strs[0].equals("false")) {
+					System.out.println("Uploading score(s) failed.");
+				} else {
+					System.out.println("Execption occured.");
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("HTTP Request failed.");
