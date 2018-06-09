@@ -47,10 +47,10 @@ public class Player extends MovableItem implements Drawable{
 	@Override
 	protected void downEvent(double frameTime, double pxsPM) {
 		
-		if(touchedGround) {
-			vY -= 7;
-			System.out.println("JUMP!");
-		}
+//		if(touchedGround) {
+//			vY -= 7;
+//			System.out.println("JUMP!");
+//		}
 	}
 	
 	public void touch(Item item) {
@@ -143,7 +143,7 @@ public class Player extends MovableItem implements Drawable{
 		gc.fillRect(posiX, posiY , width, height);//(a>0?a:0)) is Gravity-effected Animation
 		
 		//print injector fire
-		if(ie.checkState(down)) {
+		if(ie.checkState(up)) {
 			gc.setFill(Color.ORANGE);
 			double[] x = {posiX,posiX+width,posiX+width/2};
 			double[] y = {posiY+height,posiY+height,posiY+height*1.5};

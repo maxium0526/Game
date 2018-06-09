@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 public class UI extends Application{
 	InputEvent ie = InputEvent.getInputEvent();
+	public static final String version = "0.2.0";
 	@Override
 	public void start(Stage arg0) throws Exception {
 		// TODO Auto-generated method stub
@@ -25,7 +26,7 @@ public class UI extends Application{
 			);
 		
 		arg0.setScene(scene);
-		arg0.setTitle("My Game1 v0.1 powered by Maxium");
+		arg0.setTitle("My Game1 v"+ version + " powered by Maxium");
 		arg0.show();
 		
 	}

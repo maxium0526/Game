@@ -1,3 +1,5 @@
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javafx.scene.canvas.Canvas;
@@ -12,12 +14,12 @@ public class Game {
 	
 	private double pxsPM = 50;//define how many pixels a meter has 	
 	
-	private ArrayList<Player> players;
+	public ArrayList<Player> players;
 	private ArrayList<MapItem> edges;
 	private ArrayList<MapItem> walls;
 	
 	private double wallTimer;
-	private double wallTime;
+	private WallTimeGetter  wt;
 	
 	public Game(Canvas canvas, String playerName1, String playerName2) {
 		this.canvas = canvas;
@@ -44,8 +46,8 @@ public class Game {
 		
 		walls = new ArrayList<MapItem>();
 		
-		wallTime = 200;
-		wallTimer = wallTime;
+		wt = new WallTimeGetter(200,65,1.03);
+		wallTimer = wt.getTime();
 	}
 	
 	
@@ -56,48 +58,23 @@ public class Game {
 		calcParameters();
 		wallTimer --;
 		if(wallTimer<=0) {
-			wallTime-=75;
-			wallTime /= 1.05;
-			wallTime+=75;
-			wallTimer = wallTime;
-			int rnd1, rnd2;
-			do {
-				 rnd1 = (int) (Math.random() * canvas.getHeight());
-				 rnd2 = (int) (Math.random() * canvas.getHeight());
-				 System.out.println(rnd1+","+rnd2);
-				 if(rnd2<rnd1) {
-					 int t = rnd2;
-					 rnd2 = rnd1;
-					 rnd1 = t;
-				 }
-				 if(rnd2-rnd1<100 && rnd2-rnd1>70) {
-					 break;
-				 }
-			} while(true);
-			MapItem wall1 = new MapItem(20,rnd1,600,0);
-			MapItem wall2 = new MapItem(20,canvas.getHeight()-rnd2,600,rnd2);
-			wall1.setColor(Color.BLACK);
-			wall2.setColor(Color.BLACK);
-			walls.add(wall1);
-			walls.add(wall2);
+			wt.nxt();
+			wallTimer = wt.getTime();			
+			createWall();
 		}
-//		for(MapItem w:walls) {
-//			w.posiX--;
-//			if(w.posiX<-w.width) {
-//				walls.remove(w);
-//			}
-//		}
-		for(int i=0;i<walls.size();i++) {
-			walls.get(i).posiX--;
-			if(walls.get(i).posiX<-walls.get(i).width) {
-				Controller.score1+=players.get(0).dead?0:1000/wallTime + players.get(0).posiX/200;
-				Controller.score2+=players.get(1).dead?0:1000/wallTime + players.get(0).posiX/200;
-				walls.remove(i);
-				i--;
+		moveWalls();
+		boolean isEnd = true;
+		for(Player p:players) {
+			isEnd = isEnd && p.dead;
+			if(!isEnd) {
+				break;
 			}
 		}
-		
-		
+		if(isEnd) {
+			isEnd = false; //avoid multiSending
+			Controller.stopGame = true;
+			Controller.sendScore = true;
+		}
 	}
 	
 	private void calcParameters() {
@@ -145,6 +122,41 @@ public class Game {
 //	private void touch() {
 //		
 //	}
+	public void createWall() {
+		int rnd1, rnd2;
+		do {
+			 rnd1 = (int) (Math.random() * canvas.getHeight());
+			 rnd2 = (int) (Math.random() * canvas.getHeight());
+			 System.out.println(rnd1+","+rnd2);
+			 if(rnd2<rnd1) {
+				 int t = rnd2;
+				 rnd2 = rnd1;
+				 rnd1 = t;
+			 }
+			 if(rnd2-rnd1<100 && rnd2-rnd1>70) {
+				 break;
+			 }
+		} while(true);
+		MapItem wall1 = new MapItem(20,rnd1,canvas.getWidth(),0);
+		MapItem wall2 = new MapItem(20,canvas.getHeight()-rnd2,canvas.getWidth(),rnd2);
+		wall1.setColor(Color.BLACK);
+		wall2.setColor(Color.BLACK);
+		walls.add(wall1);
+		walls.add(wall2);
+	}
+	
+	public void moveWalls() {
+		for(int i=0;i<walls.size();i++) {
+			walls.get(i).posiX--;
+			if(walls.get(i).posiX<-walls.get(i).width) {
+				Controller.score1+=players.get(0).dead?0:1000/wt.getTime() + players.get(0).posiX/200;
+				Controller.score2+=players.get(1).dead?0:1000/wt.getTime() + players.get(0).posiX/200;
+				walls.remove(i);
+				i--;
+			}
+		}
+	}
+
 	
 	public void displayFrame() {
 		cleanDisplay();
@@ -161,7 +173,7 @@ public class Game {
 		}
 		
 		drawScale(450-pxsPM,370);
-		
+		drawWallCreateSpeed(420,390);
 	}
 	
 	private void cleanDisplay() {
@@ -175,6 +187,9 @@ public class Game {
 		gc.strokeLine(x,y-3,x,y+3);
 		gc.strokeLine(x+pxsPM,y-3,x+pxsPM,y+3);
 		gc.fillText("1m", x+5, y-5);
+	}
+	private void drawWallCreateSpeed(double x, double y) {
+		gc.fillText(String.valueOf((int)wt.getTime()), x, y);
 	}
 	
 }
